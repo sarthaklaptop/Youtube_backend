@@ -10,13 +10,23 @@ export const verifyJWT = asyncHandler ( async (req, _, next) => {
 
 
     try {
-        const token = req.cookies?.accesToken || req.header("Authorization")?.replace("Bearer ", "")
-    
+
+        let token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "" || "")
+        
+        // if (typeof token !== "string") {
+        //     token = String(token);
+        // }
+
+        // console.log("token: ",token)
+
         if(!token) {
             throw new ApiError(401, "Unauthorized Request")
         }
+        
     
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+
+        // console.log("decodedToken: ", decodedToken)
     
         const user = await User.findById(decodedToken?._id).select("-password -refreshToken")
     
@@ -29,7 +39,7 @@ export const verifyJWT = asyncHandler ( async (req, _, next) => {
     
         next()
     } catch (error) {
-        throw new ApiError(401, error?.message || "Invalid access token")
+        next(new ApiError(401, error?.message || "Invalid access token"));
     }
 
 })
