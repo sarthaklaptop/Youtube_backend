@@ -1,7 +1,7 @@
 {
-  "name": "chai-aur-backend",
+  "name": "youtube-backend",
   "version": "1.0.0",
-  "description": "A backend from chai aur backend ",
+  "description": "A Youtube backend project backend ",
   "type": "module",
   "main": "index.js",
   "scripts": {
